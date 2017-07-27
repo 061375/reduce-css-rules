@@ -5,71 +5,57 @@
 var Reduce = {
    // @param {Object}
    filtered:{},
-   /**
-    * init
-    * @returns{Void}
-    * */
-   init: function() {
-        var div = document.createElement('div');
-            div.setAttribute('id','yhytyhtuhf_cssreduce_container');
-            div.style.zIndex = '9999';
-            div.style.position = "absolute";
-            div.style.top = "0px";
-            div.style.left = "0px";
-            var input = document.createElement('input');
-                input.setAttribute('type','text');
-                input.setAttribute('id','yhytyhtuhf_cssreduce_url');
-                input.setAttribute('placeholder','URL of stylesheet');
-                input.style.width = "200px";
-            div.appendChild(input);
-            var button = document.createElement('button');
-                button.setAttribute('type','button');
-                button.setAttribute('id','yhytyhtuhf_cssreduce_button');
-                button.innerHTML = "Run";
-                button.addEventListener('click',function(e){
-                    this.run();    
-                });
-            div.appendChild(button);
-        document.getElementsByTagName('body').appendChild(div);
-   },
+   // @param {String}
+   phpurl:'_/php/ajax.php',
+   // @param {Array}
+   body:{},
    /**
     * run
     * runs the process
     * @returns {Void}
     * */
    run: function() {
-        var url = document.getElementById('yhytyhtuhf_cssreduce_url').value;
-        this.ajax(url,function(data){
-            
-            // add the stylesheet from previous runs on previous pages
-            this.filtered = this.parseStyleSheet(data);
-            
-            // remove the URL and button for this tool so it doesn't get added to the stylesheet
-            document.getElementById('yhytyhtuhf_cssreduce_container').remove();
-            
+        this.ajax(this.phpurl,function(data){
+            // if there is already data from a previous run (another page)
+            // then we want to combine it with the currect page
+            // duplicates will be overwitten
+            // this is because stylesheets may contain rules never used on a page
+            if (typeof data.json !== 'undefined') {
+                Reduce.filtered = JSON.parse(data.json);
+                console.log('Reduce.run :: Reduce.filtered');
+                console.log(Reduce.filtered);
+            }
             //get all tags in the body
-            body = document.getElementsByTagName("body")[0].getElementsByTagName("*");
+            Reduce.body = document.getElementsByTagName("body")[0].getElementsByTagName("*");
             
             // get body array length
-            l = body.length;
+            l = Reduce.body.length;
             // loops all body tags
             for (var i=l; i--;) {
                 // gather rules for this node
-                this.gatherRules(body[i]);
+                Reduce.gatherRules(Reduce.body[i]);
             }
             // make a stylesheet
-            var sheet = this.makeSheet(this.filtered,body);
+            var sheet = Reduce.makeSheet(Reduce.filtered);
             
+            console.log("\n\n\nReduce.run :: sheet");
+            console.log(sheet);
             // send the result to the server to be stored 
-            this.ajax(url,function(data){
+            Reduce.ajax(Reduce.phpurl,function(data){
                 alert(data);
             },{
                 method:'setStyle',
                 data:{
+                    domain:window.location.hostname,
                     sheet:sheet,
-                    json:this.filtered
+                    json:Reduce.filtered
                 }
             });
+        },{
+            method:'getStyle',
+            data: {
+                domain:window.location.hostname
+            }
         });
    },
    /**
@@ -83,16 +69,47 @@ var Reduce = {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            callback(this.responseText);
+            var d = Reduce.parseStyleSheet(this.responseText);
+            if (typeof d.success === 'undefined') {
+                // set an unknown error
+                alert('an unknown error occured');
+                return false;
+            }
+            if (0 == d.success) {
+                // set a caught error
+                var er = '';
+                for(var i in d.message) {
+                    er+=d.message[i]+"\n";
+                }
+                alert("Errors: "+er);
+                return false;
+            }
+            // no errors then pass the result to the callback
+            callback(d.message);
           }
         };
         xhttp.open("POST", url, true);
-        // if data not set assume we are simply getting the previous css
-        if (typeof data === 'undefined')
-            data = {
-                method:'getStyle'
+        // allow nested arrays in post data
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // // build a query string based on the object
+        var q = '';
+        for(i in data) {
+            if (typeof data[i] === 'object') {
+                for(j in data[i]) {
+                    
+                    if (typeof data[i][j] === 'object') {
+                        q+=i+'['+j+']='+JSON.stringify(data[i][j])+'&';
+                    }else{
+                        q+=i+'['+j+']='+data[i][j]+'&';
+                    }
+                }
+            }else{
+                q += i+'='+data[i]+'&';
             }
-        xhttp.send(data);
+        }
+        // remove the stray dellimeter
+        q = q.substring(0,q.length - 1);
+        xhttp.send(q);
    },
    /**
     * parseStyleSheet
@@ -154,32 +171,39 @@ var Reduce = {
    /**
     * makeSheet
     * @param {Object}
+    * @param {Boolean} show the result
     * @returns {String}
     * */
-   makeSheet: function(css) {
+   makeSheet: function(css,show) {
        var out = '';
        // loop the rules
        for (var s in css) {
            // add them to a string with no line-breaks
            out+=s+'{'+css[s]+'}';    
        }
-       // create a text field to hold the result that can be copied and pasted
-       var b = document.createElement('textarea');
-           b.setAttribute("onclick","this.focus();this.select()");
-           b.setAttribute("readonly","readonly");
-           b.style.zIndex = '9999';
-           b.style.position = "absolute";
-           b.style.top = "0px";
-           b.style.left = "0px";
-           b.style.width = "1000px";
-           b.style.height = "1000px";
-           // add the results
-           b.innerHTML = out;
-       // add the textarea to the page
-       body.appendChild(b);
+    
+       if (typeof show !== 'undefined' && show) {
+            // create a text field to hold the result that can be copied and pasted
+            var b = document.createElement('textarea');
+                b.setAttribute("onclick","this.focus();this.select()");
+                b.setAttribute("readonly","readonly");
+                b.style.zIndex = '9999';
+                b.style.position = "absolute";
+                b.style.top = "0px";
+                b.style.left = "0px";
+                b.style.width = "1000px";
+                b.style.height = "1000px";
+                // add the results
+                b.innerHTML = out;
+            // add the textarea to the page
+            Reduce.body[0].appendChild(b);
+       }
        return out;
    }
 }
+/**
+ * remove
+ * */
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
 }

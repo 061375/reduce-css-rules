@@ -1,0 +1,52 @@
+/* line 8, ../components/sass/style.scss */
+.container {
+  /* An exmaple of a duplicate rule ... the previous rule will be discarded */ }
+  /* line 9, ../components/sass/style.scss */
+  .container table {
+    width: 1024px;
+    /**
+     * @todo media queries
+     * */ }
+    @media screen and (max-width: 1023px) {
+      /* line 9, ../components/sass/style.scss */
+      .container table {
+        width: 100%; } }
+  /* line 18, ../components/sass/style.scss */
+  .container h2, .container p, .container a {
+    font-family: "Comic Sans MS", sans-serif; }
+  /* line 22, ../components/sass/style.scss */
+  .container h2, .container p, .container a {
+    font-family: Arial, sans-serif; }
+  /* line 25, ../components/sass/style.scss */
+  .container.pageone {
+    /* Example of rule that is never used and can be discarded */ }
+    /* line 26, ../components/sass/style.scss */
+    .container.pageone td.blue {
+      background: #0000ff; }
+      /* line 28, ../components/sass/style.scss */
+      .container.pageone td.blue h2 {
+        color: yellow; }
+    /* line 32, ../components/sass/style.scss */
+    .container.pageone td.yellow {
+      background: #ffff00; }
+      /* line 34, ../components/sass/style.scss */
+      .container.pageone td.yellow p {
+        color: blue; }
+    /* line 38, ../components/sass/style.scss */
+    .container.pageone td.red {
+      background: #ff0000; }
+      /* line 40, ../components/sass/style.scss */
+      .container.pageone td.red a {
+        color: cyan; }
+    /* line 44, ../components/sass/style.scss */
+    .container.pageone td.green {
+      background: #0f8e12; }
+      /* line 46, ../components/sass/style.scss */
+      .container.pageone td.green a {
+        color: #8e0f8b; }
+    /* line 51, ../components/sass/style.scss */
+    .container.pageone td.orange {
+      background: #f16007; }
+      /* line 53, ../components/sass/style.scss */
+      .container.pageone td.orange a {
+        color: #0798f1; }

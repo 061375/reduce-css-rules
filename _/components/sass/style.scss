@@ -1,1 +1,60 @@
-// 
+@import "mixins";
+$blue: #0000ff;
+$yellow: #ffff00;
+$red: #ff0000;
+$green: #0f8e12;
+$orange: #f16007;
+$purple: #b803fc;
+.container {
+    table {
+        width: 1024px;
+        /**
+         * @todo media queries
+         * */
+        @include break(1023px) {
+            width: 100%
+        }
+    }
+    h2, p, a {
+        font-family: "Comic Sans MS", sans-serif;            
+    }
+    /* An exmaple of a duplicate rule ... the previous rule will be discarded */
+    h2, p, a {
+        font-family: Arial, sans-serif;            
+    }
+    &.pageone {
+        td.blue {
+            background: $blue;
+            h2 {
+                color: complement($blue);
+            }
+        }
+        td.yellow {
+            background: $yellow;
+            p {
+                color: complement($yellow);
+            }
+        }
+        td.red {
+            background: $red;
+            a {
+                color: complement($red);
+            }
+        }
+        td.green {
+            background: $green;
+            a {
+                color: complement($green);
+            }
+        }
+        /* Example of rule that is never used and can be discarded */
+        td.orange {
+            background: $orange;
+            a {
+                color: complement($orange);
+            }
+        }
+    }
+    
+    
+} 

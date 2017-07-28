@@ -9,6 +9,9 @@ View the SASS stylesheet this is queing off og _/components/sass/style.scss
 
 ## Version
 
+1.3 July 28, 2017
+- Support for media queries
+
 1.2 July 27, 2017
 - Created simple interface
   - Run

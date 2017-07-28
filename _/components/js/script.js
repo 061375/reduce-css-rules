@@ -238,7 +238,19 @@ var Reduce = {
                        }
                    }
                }
-
+               /**
+                * Test for and add media queries
+                * @todo I think I can loop these to get what media querires are (actually) being used on a node
+                * */
+                if (typeof rules[r].media !== 'undefined' && rules[r].media.length > 0) {
+                    var mrules = "";
+                    for(var s in rules[r].cssRules) {
+                        if (typeof rules[r].cssRules[s].cssText === 'undefined') continue;
+                        mrules += rules[r].cssRules[s].cssText;
+                    }
+                    this.filtered[rules[r].conditionText] = mrules;
+                    
+                }
            }
        }
    },

@@ -1,14 +1,68 @@
 /**
-* loops all stylesheets on webpage and removes duplicates
-* if the selector is not being used it should be never found by the script and thus won't be added to the output sheet
-* */
+ * Reduce
+ * @author Jeremy Heminger 2017 <j.heminger13@gmail.com>
+ * @version 1.2
+ * 
+ * loops all stylesheets on webpage and removes duplicates
+ * if the selector is not being used it should be never found by the script and thus won't be added to the output sheet
+ *
+ * 
+ * */
 var Reduce = {
+    
    // @param {Object}
    filtered:{},
+   
+   
    // @param {String}
    phpurl:'_/php/ajax.php',
+   
+   
    // @param {Array}
    body:{},
+   
+   init: function() {
+    // create and append some controls
+        var f = document.createElement('div');
+            f.style.backgroundColor = "rgba(0,0,0,0.6)";
+            f.style.position = 'absolute';
+            f.style.top = "0px";
+            f.style.left = "0px";
+            f.style.width = "100%";
+            f.style.height = window.innerHeight+"px";
+            f.style.zIndex = '9998';
+            f.setAttribute("id","reduce_d5gyurt-fader");
+            var c = document.createElement("div");
+                c.style.position = "absolute";
+                c.style.top = "0px";
+                c.style.left = "0px";
+                c.style.zIndex = "9999";
+                c.setAttribute("id","reduce_d5gyurt-container");
+                f.appendChild(c);
+                var r = document.createElement("button");
+                    r.setAttribute("type","button");
+                    r.style.float = "left";
+                    r.innerHTML = "Run";
+                    r.addEventListener("click",function(){Reduce.run();});
+                c.appendChild(r);
+                var r = document.createElement("button");
+                    r.setAttribute("type","button");
+                    r.style.float = "left";
+                    r.innerHTML = "Reset";
+                    r.addEventListener("click",function(){Reduce.reset();});
+                c.appendChild(r);
+                var r = document.createElement("button");
+                    r.setAttribute("type","button");
+                    r.style.float = "left";
+                    r.innerHTML = "Close";
+                    r.addEventListener("click",function(){
+                        document.getElementById("reduce_d5gyurt-container").remove();
+                        document.getElementById("reduce_d5gyurt-fader").remove(); 
+                    });
+                c.appendChild(r);
+            f.appendChild(c);
+        document.getElementsByTagName("body")[0].appendChild(f);
+   },
    /**
     * run
     * runs the process
@@ -59,7 +113,22 @@ var Reduce = {
         });
    },
    /**
-    * loadStyleSheet
+    * reset
+    * deletes a project based on the current domain
+    * @returns {Void}
+    * */
+   reset: function() {
+        Reduce.ajax(Reduce.phpurl,function(data){
+            alert(data);
+        },{
+            method:'resetDirectory',
+            data:{
+                domain:window.location.hostname
+            }
+        }); 
+   },
+   /**
+    * ajax
     * @param {String} url
     * @param {Function} callback
     * @param {Object} {method:'',data:''}
@@ -133,8 +202,10 @@ var Reduce = {
        for (var i in sheets) {
            // get the rules from this sheet
            var rules = sheets[i].rules || sheets[i].cssRules;
+           //console.log(rules);
            // loop all the rules for this sheet
            for (var r in rules) {
+            
                // if the rule has a name
                if(typeof rules[r].selectorText !== 'undefined') {
                    // get the rule for this name
@@ -159,12 +230,15 @@ var Reduce = {
                                    // add the rule to the filtered object
                                    // if the selector already exists then it will be replaced
                                    // cascading stylesheet!!!
-                                   this.filtered[rules[r].selectorText] = p;
+                                   // if p is empty ... skip it
+                                   if (p.trim() != '') 
+                                        this.filtered[rules[r].selectorText] = p;
                                }
                            }
                        }
                    }
                }
+
            }
        }
    },
@@ -214,4 +288,4 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
         }
     }
 }
-Reduce.run();
+window.onload = function(){Reduce.init();}

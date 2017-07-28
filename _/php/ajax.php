@@ -89,6 +89,38 @@ class reduce {
         return 'The stylesheet and data was successfully written';
     }
     /**
+     * resetDirectory
+     * deletes the project by domain
+     * @param array $data
+     * @return boolean
+     * */
+    function resetDirectory($data) {
+        $domain = $this->dir.$this->_isset($data,'domain','domain is a required field',true);
+        if(false == is_dir($domain)) {
+            return "the files for this domain does not exist. no files were deleted";
+        }
+        if(false === $this->delTree($domain)) {
+            $this->setErrors('an error occured deleting the project. pleae check permissions');
+            return false;
+        }
+        return 'the project was successfully deleted';;
+    }
+    /**
+     * delTree
+     * @param string
+     * @return boolean
+     * */
+    private function delTree($dir) {
+        // make sure the $dir var is set so it doesn't delete something we don't want
+        if(true == empty($dir) OR $dir == '/')return false;
+
+        $files = array_diff(scandir($dir), array('.','..')); 
+         foreach ($files as $file) { 
+           (is_dir("$dir/$file")) ? $this->delTree("$dir/$file") : unlink("$dir/$file"); 
+         } 
+         return rmdir($dir); 
+    } 
+    /**
      * _isset
      * @param array
      * @param string

@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="_/css/style.css?a=<?php echo strtotime('now'); ?>" />
 </head>
 <body>
-    <div class="container pageone">
+    <div class="container pagetwo">
         <h1>
-            This Is Page One
+            This Is Page Two
         </h1>
         <p>
-            <a href="page2.php">Go to Page Two</a> -->
+            <--- <a href="index.php">Go to Page One</a> &nbsp; <a href="page3.php">Go to Page Three</a> --->
         </p>
         <table>
             <tr>
@@ -33,9 +33,9 @@
                         <a href="#">This is a test</a>
                     </p>
                 </td>
-                <td class="green">
+                <td class="purple">
                     <p>
-                        <a href="#">Green</a>
+                        <a href="#">Purple</a>
                     </p>
                 </td>
             </tr>

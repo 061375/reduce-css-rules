@@ -5,6 +5,11 @@ $red: #ff0000;
 $green: #0f8e12;
 $orange: #f16007;
 $purple: #b803fc;
+
+$yuckhover: #00ff00;
+body {
+    font-family: "Comic Sans MS", sans-serif;
+}
 .container {
     table {
         width: 1024px;
@@ -16,25 +21,37 @@ $purple: #b803fc;
         }
     }
     h2, p, a {
-        font-family: "Comic Sans MS", sans-serif;            
+        font-family: "Comic Sans MS", sans-serif;
     }
-    /* An exmaple of a duplicate rule ... the previous rule will be discarded */
+    td {
+        padding: 10px;
+        /**
+         * @todo hover and other events
+         * */
+        &:hover {
+            background: $yuckhover !important;
+            ph2, p, a {
+                color: complement($yuckhover) !important;
+            }
+        }
+    }
+    /* An example of a duplicate rule ... the previous rule will be discarded */
     h2, p, a {
         font-family: Arial, sans-serif;            
     }
+    td.blue {
+        background: $blue;
+        h2 {
+            color: complement($blue);
+        }
+    }
+    td.yellow {
+        background: $yellow;
+        p {
+            color: complement($yellow);
+        }
+    }
     &.pageone {
-        td.blue {
-            background: $blue;
-            h2 {
-                color: complement($blue);
-            }
-        }
-        td.yellow {
-            background: $yellow;
-            p {
-                color: complement($yellow);
-            }
-        }
         td.red {
             background: $red;
             a {
@@ -56,5 +73,22 @@ $purple: #b803fc;
         }
     }
     
-    
+    &.pagetwo {
+        td.purple {
+            background: $purple;
+            h2 {
+                color: complement($purple);
+            }
+        }
+        /* Example of rule that is never used and can be discarded */
+        td.orange {
+            background: $orange;
+            a {
+                color: complement($orange);
+            }
+        }
+        td.red {
+            border: solid 1px;
+        }
+    }
 } 

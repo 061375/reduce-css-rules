@@ -1,52 +1,86 @@
-/* line 8, ../components/sass/style.scss */
+/* line 10, ../components/sass/style.scss */
+body {
+  font-family: "Comic Sans MS", sans-serif; }
+
+/* line 13, ../components/sass/style.scss */
 .container {
-  /* An exmaple of a duplicate rule ... the previous rule will be discarded */ }
-  /* line 9, ../components/sass/style.scss */
+  /* An example of a duplicate rule ... the previous rule will be discarded */ }
+  /* line 14, ../components/sass/style.scss */
   .container table {
     width: 1024px;
     /**
      * @todo media queries
      * */ }
     @media screen and (max-width: 1023px) {
-      /* line 9, ../components/sass/style.scss */
+      /* line 14, ../components/sass/style.scss */
       .container table {
         width: 100%; } }
-  /* line 18, ../components/sass/style.scss */
+  /* line 23, ../components/sass/style.scss */
   .container h2, .container p, .container a {
     font-family: "Comic Sans MS", sans-serif; }
-  /* line 22, ../components/sass/style.scss */
+  /* line 26, ../components/sass/style.scss */
+  .container td {
+    padding: 10px;
+    /**
+     * @todo hover and other events
+     * */ }
+    /* line 31, ../components/sass/style.scss */
+    .container td:hover {
+      background: #00ff00 !important; }
+      /* line 33, ../components/sass/style.scss */
+      .container td:hover ph2, .container td:hover p, .container td:hover a {
+        color: magenta !important; }
+  /* line 39, ../components/sass/style.scss */
   .container h2, .container p, .container a {
     font-family: Arial, sans-serif; }
-  /* line 25, ../components/sass/style.scss */
+  /* line 42, ../components/sass/style.scss */
+  .container td.blue {
+    background: #0000ff; }
+    /* line 44, ../components/sass/style.scss */
+    .container td.blue h2 {
+      color: yellow; }
+  /* line 48, ../components/sass/style.scss */
+  .container td.yellow {
+    background: #ffff00; }
+    /* line 50, ../components/sass/style.scss */
+    .container td.yellow p {
+      color: blue; }
+  /* line 54, ../components/sass/style.scss */
   .container.pageone {
     /* Example of rule that is never used and can be discarded */ }
-    /* line 26, ../components/sass/style.scss */
-    .container.pageone td.blue {
-      background: #0000ff; }
-      /* line 28, ../components/sass/style.scss */
-      .container.pageone td.blue h2 {
-        color: yellow; }
-    /* line 32, ../components/sass/style.scss */
-    .container.pageone td.yellow {
-      background: #ffff00; }
-      /* line 34, ../components/sass/style.scss */
-      .container.pageone td.yellow p {
-        color: blue; }
-    /* line 38, ../components/sass/style.scss */
+    /* line 55, ../components/sass/style.scss */
     .container.pageone td.red {
       background: #ff0000; }
-      /* line 40, ../components/sass/style.scss */
+      /* line 57, ../components/sass/style.scss */
       .container.pageone td.red a {
         color: cyan; }
-    /* line 44, ../components/sass/style.scss */
+    /* line 61, ../components/sass/style.scss */
     .container.pageone td.green {
       background: #0f8e12; }
-      /* line 46, ../components/sass/style.scss */
+      /* line 63, ../components/sass/style.scss */
       .container.pageone td.green a {
         color: #8e0f8b; }
-    /* line 51, ../components/sass/style.scss */
+    /* line 68, ../components/sass/style.scss */
     .container.pageone td.orange {
       background: #f16007; }
-      /* line 53, ../components/sass/style.scss */
+      /* line 70, ../components/sass/style.scss */
       .container.pageone td.orange a {
         color: #0798f1; }
+  /* line 76, ../components/sass/style.scss */
+  .container.pagetwo {
+    /* Example of rule that is never used and can be discarded */ }
+    /* line 77, ../components/sass/style.scss */
+    .container.pagetwo td.purple {
+      background: #b803fc; }
+      /* line 79, ../components/sass/style.scss */
+      .container.pagetwo td.purple h2 {
+        color: #47fc03; }
+    /* line 84, ../components/sass/style.scss */
+    .container.pagetwo td.orange {
+      background: #f16007; }
+      /* line 86, ../components/sass/style.scss */
+      .container.pagetwo td.orange a {
+        color: #0798f1; }
+    /* line 90, ../components/sass/style.scss */
+    .container.pagetwo td.red {
+      border: solid 1px; }

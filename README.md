@@ -51,4 +51,4 @@ View the SASS stylesheet this is queing off og _/components/sass/style.scss
 - With a CMS like Drupal where ideally all the stylesheets are aggregated into one file. But for say Wordpress the stylesheets are added rather haphazzardly and so it will likely take a bit more dilligence on the part of the user to gather all the rules used in the website.
 
 ## POSSIBLE TODO IDEAS - but nothing concrete
-- Maybe I will write a crawler to automate the process. This would actually be less efficient overall. generally most wesites will have a homepgae, follow-on and perhaps a few templates/views/content type(s) etc... that display specific content. But overall generally out of several hundred pages, this tool would likely only need to be run on 3+ less than 10.
+- Maybe I will write a crawler to automate the process. This would actually be less efficient overall. generally most wesites will have a home page, follow-on and perhaps a few templates/views/content type(s) etc... that display specific content. But overall generally out of several hundred pages, this tool would likely only need to be run on 3+ less than 10.

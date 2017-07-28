@@ -45,3 +45,10 @@ View the SASS stylesheet this is queing off og _/components/sass/style.scss
 - No specific support for a tag events :visited and such (it should catch them regardless of state)
 - Media queries catch bulk rules and are not filterd based on DOM usage
 - No specific support for transitions (it can pick up in-line but complex animations will be skipped)
+- Support for browser specific rules (The stylesheet is an object that will import any rule in the sheet regardless of support) So I will need to brute force a string check for a prefix (I think) ... I am dveloping in Google Chrome and (I haven't looked yet), but its possible that these rules are added to a specific rule type (which would be great)!
+
+## CAVEATS
+- With a CMS like Drupal where ideally all the stylesheets are aggregated into one file. But for say Wordpress the stylesheets are added rather haphazzardly and so it will likely take a bit more dilligence on the part of the user to gather all the rules used in the website.
+
+## POSSIBLE TODO IDEAS - but nothing concrete
+- Maybe I will write a crawler to automate the process. This would actually be less efficient overall. generally most wesites will have a homepgae, follow-on and perhaps a few templates/views/content type(s) etc... that display specific content. But overall generally out of several hundred pages, this tool would likely only need to be run on 3+ less than 10.

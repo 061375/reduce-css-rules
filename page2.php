@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <title><!-- Insert your title here --></title>
-    <script src="_/components/js/script.js?a=<?php echo strtotime('now'); ?>"></script>
+    
     <link rel="stylesheet" href="_/css/style.css?a=<?php echo strtotime('now'); ?>" />
 </head>
 <body>
@@ -43,4 +43,8 @@
     </div>
     <?php if('192.168.1.157' == $_SERVER['REMOTE_ADDR']) {?><script src="http://192.168.1.154:35729/livereload.js"></script><?php } ?>
 </body>
+<script>
+    //var overideReduce = {useajax: true};
+</script>
+<script src="_/components/js/script.js?a=<?php echo strtotime('now'); ?>"></script>
 </html>

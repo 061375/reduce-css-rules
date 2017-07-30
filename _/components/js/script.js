@@ -9,10 +9,15 @@
  * 
  * */
 var Reduce = {
+   /**
+    * @param {Boolean}
+    * if true use ajax to store data on server
+    * @todo add support for JSONP 
+    * */
+    useajax: false,
     
    // @param {Object}
    filtered:{},
-   
    
    // @param {String}
    phpurl:'_/php/ajax.php',
@@ -21,7 +26,19 @@ var Reduce = {
    // @param {Array}
    body:{},
    
-   init: function() {
+   init: function(ajax) {
+    if (typeof ajax !== 'undefined') {
+        this.useajax = ajax; 
+    }else{
+        // this is really just for the demo
+      
+        if (typeof overideReduce !== 'undefined') {
+            if (typeof overideReduce.useajax !== 'undefined') {
+                this.useajax = overideReduce.useajax;
+            }
+        }
+    }
+    console.log('Reduce::init.ajax = '+this.useajax);
     // create and append some controls
         var f = document.createElement('div');
             f.style.backgroundColor = "rgba(0,0,0,0.6)";
@@ -69,6 +86,36 @@ var Reduce = {
     * @returns {Void}
     * */
    run: function() {
+        if(this.useajax) {
+            this.runajax();    
+        } else{
+            var filtered = window.localStorage.getItem("filtered");
+            console.log(filtered);
+            if(null == filtered) {
+                Reduce.filtered = {};
+            }else{
+                Reduce.filtered = JSON.parse(filtered);
+            }
+            //get all tags in the body
+            Reduce.body = document.getElementsByTagName("body")[0].getElementsByTagName("*");
+            
+            // get body array length
+            l = Reduce.body.length;
+            // loops all body tags
+            for (var i=l; i--;) {
+                // gather rules for this node
+                Reduce.gatherRules(Reduce.body[i]);
+            }
+            // make a stylesheet
+            var sheet = Reduce.makeSheet(Reduce.filtered);
+            
+            console.log("\n\n\nReduce.run :: sheet");
+            console.log(sheet);
+            
+            window.localStorage.setItem("filtered",JSON.stringify(Reduce.filtered));
+        }
+   },
+   runajax: function() {
         this.ajax(this.phpurl,function(data){
             // if there is already data from a previous run (another page)
             // then we want to combine it with the currect page
@@ -118,6 +165,7 @@ var Reduce = {
     * @returns {Void}
     * */
    reset: function() {
+    if (this.useajax) {
         Reduce.ajax(Reduce.phpurl,function(data){
             alert(data);
         },{
@@ -125,7 +173,10 @@ var Reduce = {
             data:{
                 domain:window.location.hostname
             }
-        }); 
+        });
+    }else{
+        window.localStorage.removeItem("filtered");   
+    }
    },
    /**
     * ajax
@@ -232,7 +283,7 @@ var Reduce = {
                                    // cascading stylesheet!!!
                                    // if p is empty ... skip it
                                    if (p.trim() != '') 
-                                        this.filtered[rules[r].selectorText] = p;
+                                        Reduce.filtered[rules[r].selectorText] = p;
                                }
                            }
                        }
@@ -300,4 +351,4 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
         }
     }
 }
-window.onload = function(){Reduce.init();}
+Reduce.init();

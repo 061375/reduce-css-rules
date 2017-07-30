@@ -8,6 +8,8 @@ View the PHP code in _/php/ajax.php
 View the SASS stylesheet this is queing off og _/components/sass/style.scss
 
 ## Version
+1.4 July 29, 2017
+- Add support for browser local storage (this is now the default)
 
 1.3 July 28, 2017
 - Support for media queries

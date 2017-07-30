@@ -40,6 +40,9 @@
                 </td>
             </tr>
         </table>
+        <div class="prefix_test">
+            This has a gradient background with prefixes   
+        </div>
     </div>
     <?php if('192.168.1.157' == $_SERVER['REMOTE_ADDR']) {?><script src="http://192.168.1.154:35729/livereload.js"></script><?php } ?>
 </body>
